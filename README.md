@@ -70,3 +70,5 @@ The fun part!
 We also have a website for this, which lets you encode, decode, and even learn RMC if you know what you’re doing :3
 
 That’s it. Bye.
+
+Update: forgot to mention the website itself. [Here it is.](<https://wess64.github.io/rmc/>) Oops.
