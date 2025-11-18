@@ -5,7 +5,7 @@ A cipher I made, being a mix of both a shift cipher (in a sense) and Morse (reas
 
 ---
 
-How to MANUALLY Read
+## How to MANUALLY Read
 
 x2 - 1 Rule
 
@@ -28,7 +28,7 @@ Hooray! Result is 13.
 
 ---
 
-Modifiers
+## Modifiers
 
 The fun part!
 
@@ -62,8 +62,6 @@ The fun part!
 &i  → ,
 ...
 &-xiii → |
-
-
 
 ---
 
