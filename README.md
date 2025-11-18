@@ -32,32 +32,33 @@ Modifiers
 
 The fun part!
 
-Nothing / plain letters
-Just take an RMC number (like -vii) → convert to a number (13) → find the corresponding letter in the alphabet → m (the 13th letter).
+- Nothing / plain letters
+   - Just take an RMC number (like -vii) → convert to a number (13) → find the corresponding letter in the alphabet → m (the 13th letter).
 
-# – numbers
-# outputs the number itself (assigning -i to 1, i to 2, … v to 0)
+- numbers
+   - outputs the number itself (assigning -i to 1, i to 2, … v to 0)
 
-Example:
+   - Example:
 
-#-i → 1
+   - #-i → 1
 #i  → 2
 #-ii → 3
 ...
 #v → 0
 
-& – symbols
-Reads from a special table (top-to-bottom, left-to-right):
-
+- & / symbols
+   - Reads from a special table (top-to-bottom, left-to-right):
+```
 ‎. | ) | " | / | -  
 ‎, | { | ' | \ | +  
 ‎! | } | : | < | #  
 ‎? | [ | ; | > | _  
 ‎( | ] | * | = | |
+```
 
-Example:
+   - Example:
 
-&-i → .
+   - &-i → .
 &i  → ,
 ...
 &-xiii → |
@@ -66,7 +67,7 @@ Example:
 
 ---
 
-How to  Read Easily
+# How to ~~be lazy~~ Read Easily
 
 We also have a website for this, which lets you encode, decode, and even learn RMC if you know what you’re doing :3
 
