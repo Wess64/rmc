@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>rmc</title>
+<style>
+  body {
+    font-family: monospace;
+    padding: 20px;
+    }
+    
+   
+  textarea {
+    width: 50%;
+    height: 100px;
+  }
+  
+  button {
+    padding: 6px 10px;
+    margin: 6px 4px 6px 0;
+    }
+    
+  p {
+    width: 50%;
+    color: gray;
+    background-color: black;
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+</style>
+</head>
+<body>
+
+<textarea id="input" placeholder="type stuff or rmc..."></textarea><br>
+
+<button onclick="encode()">encode</button>
+<button onclick="decode()">decode</button>
+
+<p id="output">try encoding / decoding and see what happens :3</p>
+
+<script>
+// -------------------------------
+// tabl,, hmf,,, so big,,,
+// -------------------------------
+const specials = [
+    ".", ",", "!", "?", "(",
+    ")", "{", "}", "[", "]",
+    "\"", "\'", ":", ";", "*",
+    "/", "\\", "<", ">", "=",
+    "-", "+", "#", "_", "|"
+];
+
+// -------------------------------
+// output if stinky null text
+// -------------------------------
+function safeOutput(str) {
+    if (!str || str.trim() === "") return "there's nothing :<";
+    return str;
+}
+
+// -------------------------------
+// num 2 roman
+// -------------------------------
+function toRoman(num) {
+    const romans = [
+        ["M",1000],["CM",900],["D",500],["CD",400],
+        ["C",100],["XC",90],["L",50],["XL",40],
+        ["X",10],["IX",9],["V",5],["IV",4],["I",1]
+    ];
+    let out = "";
+    for (const [r,v] of romans) {
+        while (num >= v) { out += r; num -= v; }
+    }
+    return out.toLowerCase();
+}
+
+function fromRoman(str) {
+    const map = {i:1, v:5, x:10, l:50, c:100, d:500, m:1000};
+    let total = 0, prev = 0;
+    for (let i = str.length - 1; i >= 0; i--) {
+        const val = map[str[i]];
+        if (!val) return null; // invalid roman returns null
+        if (val < prev) total -= val;
+        else total += val;
+        prev = val;
+    }
+    return total;
+}
+
+// -------------------------------
+// encode 2 rmc
+// -------------------------------
+function encode() {
+    const txt = document.getElementById("input").value;
+    if (!txt.trim()) return document.getElementById("output").innerHTML = safeOutput("");
+
+    let out = "";
+
+    for (const ch of txt) {
+
+        // SPACE → '/'
+        if (ch === " ") {
+            out += "/ ";
+            continue;
+        }
+
+        // LETTERS
+        if (/^[a-zA-Z]$/.test(ch)) {
+            const isUpper = ch === ch.toUpperCase();
+            const base = ch.toLowerCase().charCodeAt(0) - 96;
+
+            let code = "";
+            for (let n = 1; n < 5000; n++) {
+                if (n*2 === base) { code = toRoman(n); break; }
+                if (n*2-1 === base) { code = "-" + toRoman(n); break; }
+            }
+
+            if (isUpper) code += "+";
+            out += code + " ";
+            continue;
+        }
+
+        // NUMBERS (#)
+        if (/^[0-9]$/.test(ch)) {
+            const num = parseInt(ch);
+
+            let code = "";
+            for (let n = 1; n < 5000; n++) {
+                if (n*2 === num)  { code = "#" + toRoman(n); break; }
+                if (n*2-1 === num){ code = "#-" + toRoman(n); break; }
+            }
+
+            out += code + " ";
+            continue;
+        }
+
+        // SPECIALS (&)
+        let idx = specials.indexOf(ch);
+        if (idx !== -1) {
+            idx += 1; // convert to 1-based index
+            let code = "";
+            for (let n = 1; n < 5000; n++) {
+                if (n*2 === idx) { code = "&" + toRoman(n); break; }
+                if (n*2-1 === idx) { code = "&-" + toRoman(n); break; }
+            }
+            out += code + " ";
+            continue;
+        }
+
+        // Unknown = '?'
+        out += "? ";
+    }
+
+    document.getElementById("output").innerHTML = safeOutput(out.trim());
+}
+
+// -------------------------------
+// decode rmc
+// -------------------------------
+function decode() {
+    const raw = document.getElementById("input").value.trim();
+    if (!raw) return (document.getElementById("output").innerHTML = safeOutput(""));
+
+    const parts = raw.split(/\s+/);
+    let out = "";
+    
+    for (let t of parts) {
+
+        if (t === "/") { out += " "; continue; }
+
+        let prefix = "";
+        if (t.startsWith("#") || t.startsWith("&")) {
+            prefix = t[0];
+            t = t.slice(1);
+        }
+
+        // UPPER (+)
+        let isUpper = false;
+        if (t.endsWith("+")) {
+            isUpper = true;
+            t = t.slice(0, -1);
+        }
+
+        // NEGATIVE (-)
+        let negative = false;
+        if (t.startsWith("-")) {
+            negative = true;
+            t = t.slice(1);
+        }
+
+        // ROMAN VALUE
+        const n = fromRoman(t);
+        if (n === null) continue; // skip invalid tokens
+
+        let value = n * 2;
+        if (negative) value -= 1;
+
+        // RESOLVE TYPE
+        if (prefix === "") {
+            let ch = String.fromCharCode(96 + value);
+            if (isUpper) ch = ch.toUpperCase();
+            out += ch;
+        }
+        else if (prefix === "#") {
+            out += String(value);
+        }
+        else if (prefix === "&") {
+            const symbol = specials[value - 1];
+            if (symbol) out += symbol;
+        }
+    }
+
+    document.getElementById("output").innerHTML = safeOutput(out);
+}
+</script>
+
+</body>
+</html>
