@@ -190,8 +190,10 @@ function decode() {
 
         // ROMAN VALUE
         const n = fromRoman(t);
-        if (n === null) continue; // skip invalid tokens
-
+        if (n === null) {
+          out += "?";
+          continue;
+        }
         let value = n * 2;
         if (negative) value -= 1;
 
