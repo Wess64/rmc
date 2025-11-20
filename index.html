@@ -4,40 +4,71 @@
 <meta charset="UTF-8">
 <title>rmc</title>
 <style>
-  body {
+   body {
     font-family: monospace;
-    padding: 20px;
-    }
-    
+     padding: 20px;
+   }
+
+   .container {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+   }
    
-  textarea {
-    width: 50%;
-    height: 100px;
-  }
+   textarea {
+     width: 50%;
+     height: 100px;
+   }
   
-  button {
-    padding: 6px 10px;
-    margin: 6px 4px 6px 0;
-    }
+   button {
+     padding: 6px 10px;
+     margin: 6px 4px 6px 0;
+   }
     
-  p {
-    width: 50%;
-    color: gray;
-    background-color: black;
-    padding: 5px 10px;
-    border-radius: 15px;
-  }
+   p {
+     width: 50%;
+     color: gray;
+     background-color: black;
+     padding: 5px 10px;
+     border-radius: 0 15px 15px 0;
+     border-style: none none none dashed;
+     border-width: 1vh;
+   }
+
+   a {
+     color: black;
+     text-decoration: none;
+     text-align: center;
+   }
+  
+   hr {
+      width: 50%;
+      border-color: black;
+      border-style: dashed;
+      border-width: 1vh;
+   }
+   
+   button {
+       background-color: black;
+       color: white;
+       border-color: gray;
+       border-style: dashed;
+       padding: 2px 4px;
+       border-radius: 5px;
+   }
 </style>
 </head>
 <body>
-<p><a href="https://github.com/wess64/rmc" target="_blank">docs</a></span><hr>
+    <div class="container">
+<a href="https://github.com/wess64/rmc" target="_blank">[docs]</a><hr>
 <textarea id="input" placeholder="type stuff or rmc..."></textarea><br>
 
-<button onclick="encode()">encode</button>
-<button onclick="decode()">decode</button>
+<span><button onclick="encode()">encode</button> <button onclick="decode()">decode</button></span>
 
 <p id="output">try encoding / decoding and see what happens :3</p>
-
+</div>
 <script>
 // -------------------------------
 // tabl,, hmf,,, so big,,,
